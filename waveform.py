@@ -52,9 +52,9 @@ class wave:
         return
             
     def high_z(self):
-        self.wave_handle.write("OUTPUT:LOAD HIGHZ")
+        self.wave_handle.write("OUTPUT:LOAD INF")
     def square_wave(self):
-        self.wave_handle.write("FUNC:SQU")
+        self.wave_handle.write("APPL:SQU")
         self.wave_handle.write("VOLT:UNIT VPP")
         self.wave_handle.write("VOLT 5")
         self.wave_handle.write("FREQ 5000")

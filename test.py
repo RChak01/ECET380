@@ -19,6 +19,12 @@ scope = scope(rm, scope_add)
 wave.connect()
 scope.connect()
 # Automated Replacement
-
+wave.high_z()
+wave.square_wave()
+wave.output(1)
+scope.channel("on", 2)
+scope.channel("on", 1)
+scope.run()
+scope.autoscale()
 
 
