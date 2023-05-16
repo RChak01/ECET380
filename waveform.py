@@ -61,8 +61,6 @@ class wave:
         self.wave_handle.write("FUNC:SQU:DCYCL 40")
         self.wave_handle.write("VOLT:OFFS 2.5")
         
-
-
     def output(self, val):
         if val == 1:
             self.wave_handle.write("OUTP ON")

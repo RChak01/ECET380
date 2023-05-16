@@ -5,13 +5,20 @@ import matplotlib.pyplot as plt
 from tme import device_addresses
 from power_supply_library import power_supply
 from dmm import dmm
+from waveform import wave
+from scope import scope
 
-# devices = device_addresses()
-# rm=visa.ResourceManager()
-# dmm_add = devices.dmm_address
-# dmm_dev = dmm(rm, dmm_add)
-# dmm_dev.connect()
-# dmm_dev.single_or_dual(1, "VOLT:DC", "CURR:DC")
-# dmm_dev.identity()
+
+devices = device_addresses()
+rm=visa.ResourceManager()
+wave_add = devices.wfg_address
+wave = wave(rm, wave_add)
+scope_add = devices.scope_address
+scope = scope(rm, scope_add)
+
+wave.connect()
+scope.connect()
+# Automated Replacement
+
 
 
