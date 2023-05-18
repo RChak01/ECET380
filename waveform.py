@@ -67,7 +67,19 @@ class wave:
         if val == 0:
             self.wave_handle.write("OUTP OFF")
     
+    def clear(self):
+        self.wave_handle.write("DISPLAY:CLE")
+    def burst_config(self):
+        self.wave_handle.write("BURS:MODE") # triggerd Burst Mode
+        self.wave_handle.write("BURS:NCYC 1") #count of 1
+        self.wave_handle.write("BURS:INT:PER 0.02") # 20 ms
+        self.wave_handle.write("TRIG:SOUR 1") # trigger source 1
+        self.wave_handle.write("TRIG:SLOP POS") #rising edge]
+        self.wave_handle.write("BURS:STAT ON")
 
+    def burst_on(self):
+        self.wave_handle.write("OUTP:TRIG ON")
+        
         
 
     
