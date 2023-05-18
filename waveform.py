@@ -76,9 +76,9 @@ class wave:
         self.wave_handle.write("TRIG:SOUR 1") # trigger source 1
         self.wave_handle.write("TRIG:SLOP POS") #rising edge]
         self.wave_handle.write("BURS:STAT ON")
-
-    def burst_on(self):
-        self.wave_handle.write("OUTP:TRIG ON")
+    # Not sure If I need below:
+    # def burst_on(self):
+    #     self.wave_handle.write("OUTP:TRIG ON")
         
         
 
