@@ -26,5 +26,11 @@ scope.channel("on", 2)
 scope.channel("on", 1)
 scope.run()
 scope.autoscale()
-
-
+# Burst Section
+wave.output(1)
+time.sleep(5)
+wave.output(0)
+wave.burst_characteristics()
+scope.single()
+wave.trigger()
+wave.output(1)

@@ -69,16 +69,37 @@ class wave:
     
     def clear(self):
         self.wave_handle.write("DISPLAY:CLE")
-    def burst_config(self):
-        self.wave_handle.write("BURS:MODE") # triggerd Burst Mode
-        self.wave_handle.write("BURS:NCYC 1") #count of 1
-        self.wave_handle.write("BURS:INT:PER 0.02") # 20 ms
-        self.wave_handle.write("TRIG:SOUR 1") # trigger source 1
-        self.wave_handle.write("TRIG:SLOP POS") #rising edge]
-        self.wave_handle.write("BURS:STAT ON")
-    # Not sure If I need below:
-    # def burst_on(self):
+    # def burst_config(self):
+    #     self.wave_handle.write("BURS:MODE TRIG") # triggerd Burst Mode
+    #     self.wave_handle.write("BURS:NCYC 1") #count of 1
+    #     self.wave_handle.write("BURS:INT:PER 0.02") # 20 ms
+    #     self.wave_handle.write("TRIG:SOUR IMM") # trigger source 1
     #     self.wave_handle.write("OUTP:TRIG ON")
+
+    # def gen_burst(self):
+    #     self.wave_handle.write("*TRG")
+
+    #set up burst characteristics
+    def burst_characteristics(self):
+       # Set the burst count to 1 cycle
+        self.wfg_handle.write('BURS:NCYC 1')
+        # Set the burst period to 20 ms
+        self.wfg_handle.write('BURS:INT:PER 20e-3')
+        
+        return
+
+    #Triggers WFG 
+    def trigger(self):
+        self.wfg_handle.write("BURS:MODE TRIG")
+        self.wfg_handle.write("TRIG:SOUR:IMM")  #Maybe, This might be TRIG:SOUR:IMM
+        self.wfg_handle.write("*TRG")
+        #self.wfg_handle.write(":RUN") 
+        self.wfg_handle.write("OUTP:TRIG ON")
+
+        self.wfg_handle.write('BURS:STATe ON')  # Turn on output
+        return
+
+  
         
         
 
