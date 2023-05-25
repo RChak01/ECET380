@@ -27,7 +27,6 @@ scope.channel("on", 1)
 scope.run()
 scope.autoscale()
 # Burst Section
-wave.output(1)
 time.sleep(5)
 wave.output(0)
 wave.burst_characteristics()

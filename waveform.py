@@ -82,21 +82,21 @@ class wave:
     #set up burst characteristics
     def burst_characteristics(self):
        # Set the burst count to 1 cycle
-        self.wfg_handle.write('BURS:NCYC 1')
+        self.wave_handle.write('BURS:NCYC 1')
         # Set the burst period to 20 ms
-        self.wfg_handle.write('BURS:INT:PER 20e-3')
+        self.wave_handle.write('BURS:INT:PER 20e-3')
         
         return
 
     #Triggers WFG 
     def trigger(self):
-        self.wfg_handle.write("BURS:MODE TRIG")
-        self.wfg_handle.write("TRIG:SOUR:IMM")  #Maybe, This might be TRIG:SOUR:IMM
-        self.wfg_handle.write("*TRG")
-        #self.wfg_handle.write(":RUN") 
-        self.wfg_handle.write("OUTP:TRIG ON")
+        self.wave_handle.write("BURS:MODE TRIG")
+        self.wave_handle.write("TRIG:SOUR:IMM")  #Maybe, This might be TRIG:SOUR:IMM
+        self.wave_handle.write("*TRG")
+        #self.wave_handle.write(":RUN") 
+        self.wave_handle.write("OUTP:TRIG ON")
 
-        self.wfg_handle.write('BURS:STATe ON')  # Turn on output
+        self.wave_handle.write('BURS:STATe ON')  # Turn on output
         return
 
   

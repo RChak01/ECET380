@@ -77,6 +77,64 @@ class scope:
         self.scope_handle.write(":STOP")
     def single(self):
         self.scope_handle.write(":SINGLE")
-            
+# Performs data transfer of channel(s) via binary transfer
+    def get_waveform_binary(self,channel=1):
+        self.scope_handle.write(f':WAV:SOUR CHAN{channel}')
+        self.scope_handle.write(f':WAV:FORM BYTE')
+        self.scope_handle.write(f':WAV:BYT LSBF')
+        self.scope_handle.query('*OPC?')
+        values = self.scope_handle.query_binary_values(':WAV:DATA?', 
+                                                     datatype='B',
+                                                     header_fmt='ieee',
+                                                     expect_termination = True,
+                                                     is_big_endian=False)
+        xinc = float(self.scope_handle.query(':WAV:XINC?'))
+        xor = float(self.scope_handle.query(':WAV:XOR?'))
+        xref = float(self.scope_handle.query(':WAV:XREF?'))
+        yinc = float(self.scope_handle.query(':WAV:YINC?'))
+        yor = float(self.scope_handle.query(':WAV:YOR?'))
+        yref = float(self.scope_handle.query(':WAV:YREF?'))
+        self.scope_handle.query('*OPC?')
+        times = [xor + i*xinc for i in range(len(values))]
+        volts = [(values[i]-yref)*yinc+yor for i in range(len(values))]
+        return times,volts
+    
+    #Performs data transfer of channel(s) via ASCII transfer
+    def get_waveform_ascii(self,channel=1):
+        self.scope_handle.write(f':WAV:SOUR CHAN{channel}')
+        self.scope_handle.write(f':WAV:FORM ASC')
+        self.scope_handle.query('*OPC?')
+        values = self.scope_handle.query(':WAV:DATA?')
+        values = values[10:]
+        values = values.split(',')
+        xinc = float(self.scope_handle.query(':WAV:XINC?'))
+        xor = float(self.scope_handle.query(':WAV:XOR?'))
+        xref = float(self.scope_handle.query(':WAV:XREF?'))
+        yinc = float(self.scope_handle.query(':WAV:YINC?'))
+        yor = float(self.scope_handle.query(':WAV:YOR?'))
+        yref = float(self.scope_handle.query(':WAV:YREF?'))
+        self.scope_handle.query('*OPC?')
+        times = [xor + i*xinc for i in range(len(values))]
+        volts = [float(x) for x in values]
+        return times,volts
+
+    #Perform screen capture of display in BMP format
+    def screen_capture(self,filename='test', format='BMP', palette = 'COL',
+                       inksaver = 'OFF'):
+        self.scope_handle.write(f':HARD:INKS {inksaver}')
+        self.scope_handle.query("*OPC?")
+        confstr = f':DISP:DATA? {format},{palette}'
+        data = self.scope_handle.query_binary_values(confstr, 
+                                                    datatype='B',
+                                                    header_fmt='ieee',
+                                                    expect_termination = True,
+                                                    is_big_endian=False)
+        if "PNG" in format:
+            f = open(f'{filename}.png',"wb")
+        else:
+            f = open(f'{filename}.bmp',"wb")
+        f.write(bytes(data))
+        f.close()
+        return       
 
 
